@@ -57,6 +57,11 @@ class ServerClient(
       audioCodec = serverCommandManager.audioCodec
       audioDisabled = serverCommandManager.audioDisabled
       videoDisabled = serverCommandManager.videoDisabled
+      // Each client answers DESCRIBE from its OWN manager, built by copying a
+      // fixed list of fields off the server's. A field missing from that list
+      // silently keeps its default, which for fps is 0 — and SdpBody then omits
+      // a=framerate entirely, so the declaration never reached the wire.
+      fps = serverCommandManager.fps
       val udpPorts = findFreeUdpPortPairs()
       videoServerPorts[0] = udpPorts[0]
       videoServerPorts[1] = udpPorts[1]
