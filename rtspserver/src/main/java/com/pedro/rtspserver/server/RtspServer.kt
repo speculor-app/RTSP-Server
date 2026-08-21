@@ -231,6 +231,11 @@ class RtspServer(
     }
   }
 
+  /** Declare the frame rate in the SDP. 0 says nothing. */
+  fun setFps(fps: Int) {
+    serverCommandManager.fps = fps
+  }
+
   fun setVideoInfo(sps: ByteBuffer, pps: ByteBuffer?, vps: ByteBuffer?) {
     serverCommandManager.setVideoInfo(sps, pps, vps)
     semaphore.release()

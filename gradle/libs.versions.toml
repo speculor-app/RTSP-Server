@@ -9,7 +9,10 @@ appcompat = "1.7.1"
 constraintlayout = "2.2.1"
 coroutines = "1.11.0"
 ktor = "3.5.1"
-rootEncoder = "2.8.0"
+# speculor-app's fork, not upstream: it carries the RTCP capture-time patches
+# this server depends on, and now the SdpBody fps parameter used to declare
+# a=framerate. Upstream has neither, so building against it would not compile.
+rootEncoder = "2.8.0-spc.16"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -17,8 +20,8 @@ androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayo
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 ktor-network = { module = "io.ktor:ktor-network", version.ref = "ktor" }
 ktor-network-tls = { module = "io.ktor:ktor-network-tls", version.ref = "ktor" }
-rootEncoder-library = { module = "com.github.pedroSG94.RootEncoder:library", version.ref = "rootEncoder" }
-rootEncoder-extra-sources = { module = "com.github.pedroSG94.RootEncoder:extra-sources", version.ref = "rootEncoder" }
+rootEncoder-library = { module = "com.github.speculor-app.RootEncoder:library", version.ref = "rootEncoder" }
+rootEncoder-extra-sources = { module = "com.github.speculor-app.RootEncoder:extra-sources", version.ref = "rootEncoder" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

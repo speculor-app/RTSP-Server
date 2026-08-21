@@ -54,6 +54,9 @@ class RtspServerStream(
     val newSps = sps.duplicate()
     val newPps = pps?.duplicate()
     val newVps = vps?.duplicate()
+    // Declared alongside the codec data, which is the moment the SDP becomes
+    // answerable and the encoder's configured rate is known.
+    rtspServer.setFps(getVideoFps())
     rtspServer.setVideoInfo(newSps, newPps, newVps)
   }
 

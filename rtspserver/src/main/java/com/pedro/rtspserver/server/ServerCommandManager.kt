@@ -167,6 +167,14 @@ class ServerCommandManager: CommandsManager() {
     return "${createHeader(cSeq)}Content-Length: ${body.length}\r\nContent-Base: rtsp://$serverIp:$serverPort/\r\nContent-Type: application/sdp\r\n\r\n$body"
   }
 
+  /**
+   * Frames per second to DECLARE in the SDP, or 0 to say nothing.
+   *
+   * A receiver that is told nothing has to infer the rate from packet arrival,
+   * which is a guess from the first few packets. The encoder knows the answer.
+   */
+  var fps: Int = 0
+
   private fun createBody(clientIp: String): String {
     var audioBody = ""
     if (!audioDisabled) {
@@ -184,11 +192,11 @@ class ServerCommandManager: CommandsManager() {
       videoBody = when (videoCodec) {
         VideoCodec.H264 -> {
           if (sps == null || pps == null) throw IllegalArgumentException("sps or pps can't be null with h264")
-          SdpBody.createH264Body(rtpTracks.trackVideo, spsString, ppsString)
+          SdpBody.createH264Body(rtpTracks.trackVideo, spsString, ppsString, fps = fps)
         }
         VideoCodec.H265 -> {
           if (sps == null || pps == null || vps == null) throw IllegalArgumentException("sps, pps or vps can't be null with h265")
-          SdpBody.createH265Body(rtpTracks.trackVideo, spsString, ppsString, vpsString)
+          SdpBody.createH265Body(rtpTracks.trackVideo, spsString, ppsString, vpsString, fps = fps)
         }
         VideoCodec.AV1 -> {
           SdpBody.createAV1Body(rtpTracks.trackVideo)
