@@ -65,6 +65,17 @@ class RtspServerStream(
   }
 
   /**
+   * Video frames the sender discarded rather than send.
+   *
+   * The send queue is offered frames with a non-blocking trySend, so when the
+   * socket cannot drain fast enough the frame is dropped instead of stalling the
+   * camera — the right trade for a live stream, and an invisible one. Counting is
+   * already done per client; this is the total, so a caller can say how many
+   * frames left the encoder and never reached the wire.
+   */
+  val droppedVideoFrames: Long get() = rtspServer.droppedVideoFrames
+
+  /**
    * Re-declare the frame rate, for clients connecting from here on.
    *
    * The rate declared at [onVideoInfoImp] is the one the encoder was CONFIGURED
