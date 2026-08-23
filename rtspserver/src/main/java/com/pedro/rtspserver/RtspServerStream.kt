@@ -64,6 +64,20 @@ class RtspServerStream(
     rtspServer.sendVideo(videoBuffer, info)
   }
 
+  /**
+   * Re-declare the frame rate, for clients connecting from here on.
+   *
+   * The rate declared at [onVideoInfoImp] is the one the encoder was CONFIGURED
+   * with, which on a high-speed mode is a request rather than an outcome: a camera
+   * asked for 240 can deliver 130. A receiver told 240 believes it and times the
+   * stream wrongly, which is worse than the inference it would have made from
+   * packet arrival had it been told nothing. Callers that measure the real rate
+   * should pass it here so the SDP describes the stream instead of the intent.
+   */
+  fun declareFps(fps: Int) {
+    rtspServer.setFps(fps)
+  }
+
   override fun getStreamClient(): RtspServerStreamClient = RtspServerStreamClient(rtspServer)
 
   override fun setVideoCodecImp(codec: VideoCodec) {
