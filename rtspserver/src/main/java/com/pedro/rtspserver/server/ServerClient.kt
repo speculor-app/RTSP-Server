@@ -62,6 +62,7 @@ class ServerClient(
       // silently keeps its default, which for fps is 0 — and SdpBody then omits
       // a=framerate entirely, so the declaration never reached the wire.
       fps = serverCommandManager.fps
+      rotation = serverCommandManager.rotation
       val udpPorts = findFreeUdpPortPairs()
       videoServerPorts[0] = udpPorts[0]
       videoServerPorts[1] = udpPorts[1]

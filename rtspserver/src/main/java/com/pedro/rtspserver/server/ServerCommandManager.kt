@@ -175,6 +175,17 @@ class ServerCommandManager: CommandsManager() {
    */
   var fps: Int = 0
 
+  /**
+   * Display rotation of the coded frames to DECLARE in the SDP, degrees
+   * clockwise, or 0 to say nothing.
+   *
+   * A capture the camera feeds to the encoder directly arrives SENSOR-oriented
+   * — the pixels are landscape whatever the operator holds — and the sender is
+   * the only party that knows how to stand them up. Receivers that do not know
+   * the attribute ignore it, which is exactly what they did before.
+   */
+  var rotation: Int = 0
+
   private fun createBody(clientIp: String): String {
     var audioBody = ""
     if (!audioDisabled) {
@@ -192,11 +203,11 @@ class ServerCommandManager: CommandsManager() {
       videoBody = when (videoCodec) {
         VideoCodec.H264 -> {
           if (sps == null || pps == null) throw IllegalArgumentException("sps or pps can't be null with h264")
-          SdpBody.createH264Body(rtpTracks.trackVideo, spsString, ppsString, fps = fps)
+          SdpBody.createH264Body(rtpTracks.trackVideo, spsString, ppsString, fps = fps, rotation = rotation)
         }
         VideoCodec.H265 -> {
           if (sps == null || pps == null || vps == null) throw IllegalArgumentException("sps, pps or vps can't be null with h265")
-          SdpBody.createH265Body(rtpTracks.trackVideo, spsString, ppsString, vpsString, fps = fps)
+          SdpBody.createH265Body(rtpTracks.trackVideo, spsString, ppsString, vpsString, fps = fps, rotation = rotation)
         }
         VideoCodec.AV1 -> {
           SdpBody.createAV1Body(rtpTracks.trackVideo)

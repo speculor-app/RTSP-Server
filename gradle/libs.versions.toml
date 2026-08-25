@@ -12,7 +12,7 @@ ktor = "3.5.1"
 # speculor-app's fork, not upstream: it carries the RTCP capture-time patches
 # this server depends on, and now the SdpBody fps parameter used to declare
 # a=framerate. Upstream has neither, so building against it would not compile.
-rootEncoder = "2.8.0-spc.16"
+rootEncoder = "2.8.0-spc.22"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }

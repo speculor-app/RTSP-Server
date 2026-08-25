@@ -236,6 +236,11 @@ class RtspServer(
     serverCommandManager.fps = fps
   }
 
+  /** Declare the coded frames' display rotation in the SDP. 0 says nothing. */
+  fun setRotation(rotation: Int) {
+    serverCommandManager.rotation = rotation
+  }
+
   fun setVideoInfo(sps: ByteBuffer, pps: ByteBuffer?, vps: ByteBuffer?) {
     serverCommandManager.setVideoInfo(sps, pps, vps)
     semaphore.release()

@@ -53,3 +53,21 @@ dependencies {
     implementation(libs.ktor.network)
     implementation(libs.ktor.network.tls)
 }
+
+// Fork development only (-Pspc.localRootEncoder=true): swap the pinned JitPack
+// RootEncoder for the sibling checkout's `publishToMavenLocal` output. Release
+// builds never use it — JitPack builds from the tag with the pin above.
+if (providers.gradleProperty("spc.localRootEncoder").orNull == "true") {
+    configurations.configureEach {
+        resolutionStrategy.dependencySubstitution {
+            listOf(
+                "library", "encoder", "common", "rtsp", "rtmp", "srt", "udp",
+                "extra-sources", "whip",
+            ).forEach { m ->
+                substitute(module("com.github.speculor-app.RootEncoder:$m"))
+                    .using(module("com.github.pedroSG94:$m:2.8.0"))
+                    .because("local fork development build")
+            }
+        }
+    }
+}

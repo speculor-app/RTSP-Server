@@ -89,6 +89,18 @@ class RtspServerStream(
     rtspServer.setFps(fps)
   }
 
+  /**
+   * Declare the coded frames' display rotation (degrees clockwise) in the SDP.
+   *
+   * A capture the camera feeds to the encoder directly is SENSOR-oriented —
+   * the pixels are landscape whatever the operator holds — and only the sender
+   * knows how to stand them up. 0 says nothing, which is right for the GL path
+   * whose pixels are already upright.
+   */
+  fun declareRotation(rotation: Int) {
+    rtspServer.setRotation(rotation)
+  }
+
   override fun getStreamClient(): RtspServerStreamClient = RtspServerStreamClient(rtspServer)
 
   override fun setVideoCodecImp(codec: VideoCodec) {
